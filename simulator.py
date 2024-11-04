@@ -96,13 +96,15 @@ class Simulator:
         p2_win_count = 0
         p1_times = []
         p2_times = []
+        board_size_min = self.args.board_size_min + self.args.board_size_min % 2
+        board_size_max = self.args.board_size_max - self.args.board_size_max % 2
         if self.args.display:
             logger.warning("Since running autoplay mode, display will be disabled")
         self.args.display = False
         with all_logging_disabled():
             for i in range(self.args.autoplay_runs):
                 swap_players = i % 2 == 0
-                board_size = np.random.randint(self.args.board_size_min, self.args.board_size_max)
+                board_size = np.random.randint(board_size_min // 2, (board_size_max // 2) + 1) * 2
                 p0_score, p1_score, p0_time, p1_time = self.run(
                     swap_players=swap_players, board_size=board_size
                 )
